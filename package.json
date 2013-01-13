@@ -7,7 +7,8 @@
     "jade": "*",
     "stylus": "*",
     "nib": "*",
-    "socket.io": "*"
+    "socket.io": "*",
+    "underscore": "*"
   },
   "devDependencies": {}
 }
