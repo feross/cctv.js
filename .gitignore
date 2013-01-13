@@ -1,6 +1,3 @@
-# Ignore compiled css assets
-css/
-
 # Ignore node_modules, use "npm shrinkwrap" instead
 node_modules/
 
