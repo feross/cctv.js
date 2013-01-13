@@ -56,12 +56,12 @@ function findClient(id) {
 function trackedPageConnection(socket, initialData) {
   var id
 
-  if(initialData.cookie != null) {
-    id = initialData.cookie
-    socket.emit('startupdate', {})
+  if(initialData.id != null) {
+    id = initialData.id
+    socket.emit('start-updating', {})
   } else {
     id = _.uniqueId()
-    socket.emit('startupdate', {cookie: id})
+    socket.emit('start-updating', {id: id})
   }
 
   socket.on('update', function(data) {
@@ -81,6 +81,11 @@ function trackedPageConnection(socket, initialData) {
       admins.forEach(function(admin) {admin.clientConnected(client)})
     }
     console.log("clients: ", clients)
+  })
+
+  socket.on('event', function(data) {
+    data.id = id
+    admins.forEach(function(admin) {admin.clientEvent(data)})
   })
 
   socket.on('disconnect', function() {
@@ -112,6 +117,10 @@ AdminConnection.prototype.clientConnected = function(client) {
 
 AdminConnection.prototype.clientUpdated = function(state) {
     this.socket.emit('client-updated', state)
+}
+
+AdminConnection.prototype.clientEvent = function(data) {
+    this.socket.emit('client-event', data)
 }
 
 AdminConnection.prototype.clientDisconnected = function(id) {

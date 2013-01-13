@@ -22,6 +22,13 @@ socket.on('client-updated', function(data) {
   grid.update(data)
 })
 
+socket.on('client-event', function(data) {
+  log("event: ", data)
+  if(data.type == 'click') {
+    // Handle click
+  }
+})
+
 socket.on('client-disconnected', function(data) {
   log("disconnected: ", data.id)
   // grid.remove(data.id)
