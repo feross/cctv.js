@@ -1,4 +1,4 @@
-var THROTTLE_TIME = 500
+var THROTTLE_TIME = 100
 
 function sendTopLeft() {
   var top = $(window).scrollTop()
@@ -17,8 +17,8 @@ function sendWidthHeight() {
 }
 
 function sendMousePos(event) {
-  var x = event.pageX
-    , y = event.pageY
+  var x = event.pageX - $(window).scrollLeft()
+    , y = event.pageY - $(window).scrollTop()
 
   log("mouse x, y", x, y)
   return {mousex: x, mousey: y}

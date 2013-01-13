@@ -120,11 +120,23 @@ Grid.prototype.update = function (data) {
   }
 
   // Update cursor position
-  // if (data.mousex && data.mousey) {
-  //   var $cursor = $('<img>')
-  //   $cursor.addClass('cursor')
-  //   $cursor.
-  // }
+  if (data.mousex && data.mousey) {
+    var $cursor = $('#cursor-' + data.id)
+
+    if ($cursor.length == 0) {
+      $cursor = $('<div>')
+      $cursor
+        .attr('id', 'cursor-' + data.id)
+        .addClass('cursor')
+        .appendTo('#'+data.id)
+    }
+
+    $cursor.css({
+      top: data.mousey,
+      left: data.mousex
+    })
+
+  }
 }
 
 Grid.prototype.remove = function (id) {
