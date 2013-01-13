@@ -29,6 +29,7 @@ socket.on('disconnect', function() {
 
 function Grid () {
   this.numFrames = 0
+  this.iframes = []
 }
 
 Grid.prototype.add = function (data) {
@@ -39,6 +40,8 @@ Grid.prototype.add = function (data) {
     .addClass('site')
     .attr('id', data.id).attr('name', data.id)
     .attr('src', data.src)
+
+  this.iframes.push($iframe)
   
   $iframe.appendTo('.grid')
   setupIFrame($iframe)
@@ -93,7 +96,7 @@ Grid.prototype.update = function (data) {
     iframe.CCTV_ON_LOAD = onLoad
   }
 
-  scaleIFrame($iframe, data.width, data.height)
+  layout()
 }
 
 
@@ -115,32 +118,37 @@ function setupIFrame ($iframe) {
 }
 
 
-function scaleIFrame ($iframe, clientWidth, clientHeight) {
-  var scaleFactor = 1
-  if (clientWidth > adminWidth) {
-    scaleFactor = adminWidth / clientWidth
-  }
-  if (clientHeight > adminHeight) {
-    var s = adminHeight / clientHeight
-    if (s < scaleFactor) {
-      scaleFactor = s
+Grid.prototype.layout = function () {
+  this.iframes.forEach(function($iframe) {
+    var clientWidth = $iframe.width()
+      , clientHeight = $iframe.height()
+      , scaleFactor = 1
+
+    if (clientWidth > adminWidth) {
+      scaleFactor = adminWidth / clientWidth
     }
-  }
-  log('scaleFactor' + scaleFactor)
-  $iframe.css({transform: 'scale(' + scaleFactor + ')'})
-  setTimeout(function () {
-    var position = $iframe.position()
-      , iframeWidth = $iframe.width() * scaleFactor
-      , iframeHeight = $iframe.height() * scaleFactor
-      , xOffsetForCentering = (adminWidth - iframeWidth) / 2
-      , yOffsetForCentering = (adminHeight - iframeHeight) / 2
+    if (clientHeight > adminHeight) {
+      var s = adminHeight / clientHeight
+      if (s < scaleFactor) {
+        scaleFactor = s
+      }
+    }
+    log('scaleFactor' + scaleFactor)
+    $iframe.css({transform: 'scale(' + scaleFactor + ')'})
+    setTimeout(function () {
+      var position = $iframe.position()
+        , iframeWidth = $iframe.width() * scaleFactor
+        , iframeHeight = $iframe.height() * scaleFactor
+        , xOffsetForCentering = (adminWidth - iframeWidth) / 2
+        , yOffsetForCentering = (adminHeight - iframeHeight) / 2
 
-    $iframe.css({
-      top: -position.top + yOffsetForCentering,
-      left: -position.left + xOffsetForCentering
-    })
+      $iframe.css({
+        top: -position.top + yOffsetForCentering,
+        left: -position.left + xOffsetForCentering
+      })
 
-  }, 0)
+    }, 0)
+  })
 }
 
 
