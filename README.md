@@ -3,8 +3,11 @@
 Feross: 12 hours 50 minutes.
 
 TODO:
+get it working on studynotes
+add number of people to top of dashboard with OMG at > 20
+
 add magnifier on dashboard page http://css-tricks.com/examples/AnythingZoomer/
-add little browser UIs images around the iframes, based on the user's browser
+
 
 # New project boilerplate
 

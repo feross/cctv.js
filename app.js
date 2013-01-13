@@ -1,3 +1,7 @@
+global.PORT = (process.argv.length > 2)
+  ? process.argv[2]
+  : 4000
+
 var express = require('express')
   , http = require('http')
   , path = require('path')
@@ -8,8 +12,10 @@ var express = require('express')
   , server = http.createServer(app)
   , io = require('socket.io').listen(server)
 
+
+
 app.configure(function(){
-  app.set('port', process.env.PORT || 4000);
+  app.set('port', PORT);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
@@ -41,9 +47,16 @@ app.get('/', function(req, res){
   res.render('index', { title: 'Express' });
 });
 
-server.listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
-});
+if (process.argv[2]) {
+  server.listen(app.get('port'), '192.155.85.126', function(){
+    console.log("Express server listening on port " + app.get('port') + ' and an IP');
+  });
+} else {
+  server.listen(app.get('port'), function(){
+    console.log("Express server listening on port " + app.get('port'));
+  });
+}
+
 
 var clients = []
   , admins = []
@@ -132,4 +145,11 @@ io.sockets.on('connection', function (socket) {
   socket.on('admin-start', function(data) {
     admins.push(new AdminConnection(socket, data))
   })
+})
+
+
+
+// Catch and log exceptions so the node process doesn't crash
+process.on('uncaughtException', function (err){
+  error('WARNING: Node uncaughtException: ', err.stack)
 })

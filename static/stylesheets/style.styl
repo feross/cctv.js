@@ -4,19 +4,66 @@ html, body
   margin: 0
   padding: 0
 
+body
+  background: url('/images/retina_wood.png')
+
 .grid
-  // border: 1px solid red
   height: 250%
   transform: scale(0.4)
   transform-origin: 0% 0%
   width: 250%
 
-.site iframe
-  border: 2px solid #CCC
+.site
   margin: 30px
 
-  transition-property: width, height
-  transition-duration: 0.3s
+  &.chrome.osx
+    background: url(/images/browser/browser-osx-chrome-left.png) left top no-repeat, url(/images/browser/browser-osx-chrome-right.png) right top no-repeat, url(/images/browser/browser-osx-chrome-bg.png) left top repeat-x
+    iframe
+      margin-top: 72px
+
+  &.chrome.windows
+    background: url(/images/browser/browser-windows-chrome-left.png) left top no-repeat, url(/images/browser/browser-windows-chrome-right.png) right top no-repeat, url(/images/browser/browser-windows-chrome-bg.png) left top repeat-x
+    iframe
+      margin-top: 61px
+
+  &.chrome.linux
+    background: url(/images/browser/browser-linux-chrome-left.png) left top no-repeat, url(/images/browser/browser-linux-chrome-right.png) right top no-repeat, url(/images/browser/browser-linux-chrome-bg.png) left top repeat-x
+    iframe
+      margin-top: 86px
+
+  &.firefox.osx
+    background: url(/images/browser/browser-osx-firefox-center.png) center top no-repeat, url(/images/browser/browser-osx-firefox-left.png) left top no-repeat, url(/images/browser/browser-osx-firefox-right.png) right top no-repeat, url(/images/browser/browser-osx-firefox-bg.png) left top repeat-x
+    iframe
+      margin-top: 87px
+
+  &.firefox.windows
+    background: url(/images/browser/browser-windows-firefox-left.png) left top no-repeat, url(/images/browser/browser-windows-firefox-right.png) right top no-repeat, url(/images/browser/browser-windows-firefox-bg.png) left top repeat-x
+    iframe
+      margin-top: 63px
+
+  &.firefox.linux
+    background: url(/images/browser/browser-linux-firefox-left.png) left top no-repeat, url(/images/browser/browser-linux-firefox-right.png) right top no-repeat, url(/images/browser/browser-linux-firefox-bg.png) left top repeat-x
+    iframe
+      margin-top: 90px
+
+  &.safari.osx
+    background: url(/images/browser/browser-osx-safari-center.png) center top no-repeat, url(/images/browser/browser-osx-safari-left.png) left top no-repeat, url(/images/browser/browser-osx-safari-right.png) right top no-repeat, url(/images/browser/browser-osx-safari-bg.png) left top repeat-x
+    iframe
+      margin-top: 72px
+
+  &.safari.windows
+    background: url(/images/browser/browser-windows-safari-center.png) center top no-repeat, url(/images/browser/browser-windows-safari-left.png) left top no-repeat, url(/images/browser/browser-windows-safari-right.png) right top no-repeat, url(/images/browser/browser-windows-safari-bg.png) left top repeat-x
+    iframe
+      margin-top: 72px
+
+
+
+  iframe
+    border: 2px solid #CCC
+    box-shadow: 0 5px 14px rgba(0,0,0,0.4)
+
+    transition-property: width, height
+    transition-duration: 0.3s
 
 
 .cursor
@@ -30,34 +77,28 @@ html, body
 
 /**** Isotope Filtering ****/
 
-.isotope-item {
-  z-index: 2;
-}
+.isotope-item
+  z-index: 2
 
-.isotope-hidden.isotope-item {
-  pointer-events: none;
-  z-index: 1;
-}
+.isotope-hidden.isotope-item
+  pointer-events: none
+  z-index: 1
 
 /**** Isotope CSS3 transitions ****/
 
 .isotope,
-.isotope .isotope-item {
-  transition-duration: 0.8s;
-}
+.isotope .isotope-item
+  transition-duration: 0.8s
 
-.isotope {
-  transition-property: height, width;
-}
+.isotope
+  transition-property: height, width
 
-.isotope .isotope-item {
-  transition-property:         transform, opacity;
-}
+.isotope .isotope-item
+  transition-property: transform, opacity
 
 /**** disabling Isotope CSS3 transitions ****/
 
 .isotope.no-transition,
 .isotope.no-transition .isotope-item,
-.isotope .isotope-item.no-transition {
-  transition-duration: 0s;
-}
+.isotope .isotope-item.no-transition
+  transition-duration: 0s

@@ -1,4 +1,10 @@
-var socket = io.connect('http://localhost');
+var socket
+
+if (window.location.hostname == 'apstudynotes.org' || window.location.hostname == 'www.apstudynotes.org' || window.location.hostname == 'local.apstudynotes.org') {
+  socket = io.connect('http://www.apstudynotes.org:8080/')
+} else {
+  socket = io.connect('http://localhost')
+}
 
 var grid = new Grid()
 
@@ -36,6 +42,7 @@ socket.on('disconnect', function() {
 function Grid () {
   this.numFrames = 0
   this.iframes = []
+  this.cursorTimeouts = {}
 
   $('.grid').isotope({
     itemSelector : '.site',
@@ -71,9 +78,10 @@ Grid.prototype.add = function (data) {
 
 Grid.prototype.update = function (data) {
   var self = this
+    , $site = $('#' + data.id)
     , $iframe = $('#' + data.id + ' iframe')
     , iframe = $iframe[0]
-
+  log(data)
   if (data.src) {
     // Load new site in existing iframe
     $iframe.attr('src', data.src)
@@ -92,6 +100,14 @@ Grid.prototype.update = function (data) {
 
   if (data.height != null) {
     $iframe.height(data.height)
+  }
+
+  if (data.browser) {
+    $site.addClass(data.browser)
+  }
+
+  if (data.os) {
+    $site.addClass(data.os)
   }
 
   var iframeWindow = iframe.contentWindow
@@ -132,9 +148,17 @@ Grid.prototype.update = function (data) {
     }
 
     $cursor.css({
-      top: data.mousey,
-      left: data.mousex
+      top: data.mousey + 80 /* browser UI offset */ - 50 /* center cursor */,
+      left: data.mousex - 50 /* center cursor */
     })
+
+    // Fade out cursor when it's not moved for 1 second
+    clearTimeout(this.cursorTimeouts[data.id])
+    this.cursorTimeouts[data.id] = window.setTimeout(function () {
+      $cursor.fadeOut(300, function () {
+        $cursor.remove()
+      })
+    }, 1000)
 
   }
 }
