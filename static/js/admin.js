@@ -128,7 +128,7 @@ Grid.prototype.update = function (data) {
 }
 
 Grid.prototype.remove = function (id) {
-  $item = $(id)
+  $item = $('#' + id)
   $('.grid').isotope('remove', $item)
 }
 
