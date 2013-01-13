@@ -71,7 +71,8 @@ function trackedPageConnection(socket, initialData) {
       client.timer = null
       _.extend(client.state, data)
       // Update case
-      admins.forEach(function(admin) {admin.clientUpdated(client)})
+      data.id = id
+      admins.forEach(function(admin) {admin.clientUpdated(data)})
     } else {
       data.id = id
       client = {state: data}
@@ -109,8 +110,8 @@ AdminConnection.prototype.clientConnected = function(client) {
     this.socket.emit('client-connected', client.state)
 }
 
-AdminConnection.prototype.clientUpdated = function(client) {
-    this.socket.emit('client-updated', client.state)
+AdminConnection.prototype.clientUpdated = function(state) {
+    this.socket.emit('client-updated', state)
 }
 
 AdminConnection.prototype.clientDisconnected = function(id) {

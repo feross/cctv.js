@@ -5,6 +5,8 @@ var adminWidth = $(window).width()
 
 log('adminWidth: ' + adminWidth)
 
+var grid = new Grid()
+
 // Socket code
 socket.on('connect', function() {
   socket.emit('admin-start', {})
@@ -12,17 +14,20 @@ socket.on('connect', function() {
 
 socket.on('client-connected', function(data) {
   log("connected: ", data)
+  grid.add(data)
 })
 
 socket.on('client-updated', function(data) {
   log("updated: ", data)
+  grid.update(data)
 })
 
 socket.on('client-disconnected', function(data) {
   log("disconnected: ", data.id)
+  // grid.remove(data.id)
 })
 
-socket.on('disconnect', function() {
+socket.on('disconnect', function() {  
   log("LOST SERVER CONNECTION!")
 })
 
@@ -96,7 +101,7 @@ Grid.prototype.update = function (data) {
     iframe.CCTV_ON_LOAD = onLoad
   }
 
-  layout()
+  self.layout()
 }
 
 
@@ -152,23 +157,22 @@ Grid.prototype.layout = function () {
 }
 
 
-var grid = new Grid()
-grid.add({
-  id: 'a',
-  src: '/sample/index.html',
-  width: 1440,
-  height: 900,
-  scrollTop: 50,
-  scrollLeft: 0
-})
+// grid.add({
+//   id: 'a',
+//   src: '/sample/index.html',
+//   width: 1440,
+//   height: 900,
+//   scrollTop: 50,
+//   scrollLeft: 0
+// })
 
-setTimeout(function() {
-  grid.add({
-    id: 'b',
-    src: '/sample/about.html',
-    width: 1440,
-    height: 900,
-    scrollTop: 50,
-    scrollLeft: 0
-  })
-}, 1000)
+// setTimeout(function() {
+//   grid.add({
+//     id: 'b',
+//     src: '/sample/about.html',
+//     width: 1440,
+//     height: 900,
+//     scrollTop: 50,
+//     scrollLeft: 0
+//   })
+// }, 1000)
