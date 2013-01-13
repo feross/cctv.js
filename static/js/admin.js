@@ -74,7 +74,7 @@ Grid.prototype.update = function (data) {
 
     // Continue `update` function when iframe src has changed in DOM
     setTimeout(function () {
-      self.update(_.omit(data, src))
+      self.update(_.omit(data, 'src'))
     }, 0)
     return 
   }

@@ -38,7 +38,7 @@ if(top === self) {
   })
 
   socket.on('start-updating', function(data) {
-    if(data.cookie) {
+    if(data.id) {
       window.localStorage.setItem('cctv_tracker_id', data.id)
       log("updated id: ", data.id)
     }

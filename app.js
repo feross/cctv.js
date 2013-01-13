@@ -60,7 +60,7 @@ function trackedPageConnection(socket, initialData) {
     id = initialData.id
     socket.emit('start-updating', {})
   } else {
-    id = _.uniqueId()
+    id = Math.random().toString(36).substr(2, 10)
     socket.emit('start-updating', {id: id})
   }
 
