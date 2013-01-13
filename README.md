@@ -1,3 +1,18 @@
+# CCTV.js
+
+Feross: 12 hours 50 minutes.
+
+1 dashboard design
+1 dashboard resizing
+1 dashboard siteview animation
+1 serverside image rendering
+
+1 client data capture
+1 socket io client/admin tracking
+
+TODO:
+add magnifier on dashboard page http://css-tricks.com/examples/AnythingZoomer/
+
 # New project boilerplate
 
 ### Guaranteed to decrease your Hacktivation Energy&trade; by over 9000!!

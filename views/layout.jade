@@ -1,7 +1,15 @@
 doctype 5
-html
+html.no-js
   head
+    meta(charset="utf-8")
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     block content
+
+    script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js")
+    script(src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.3/underscore-min.js")
+    script(src="/socket.io/socket.io.js")
+    script(src="/js/util.js")
+    
+    script(src="/js/admin.js")
