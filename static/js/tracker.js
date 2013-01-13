@@ -56,7 +56,7 @@ if(top === self) {
     }, THROTTLE_TIME))
     $(document).on('mousemove', _.throttle(function(event) {
       socket.emit('update', sendMousePos(event))
-    }, 50))
+    }, THROTTLE_TIME))
   })
 }
 
