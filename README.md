@@ -5,7 +5,6 @@ Feross: 12 hours 50 minutes.
 1 dashboard design
 1 dashboard resizing
 1 dashboard siteview animation
-1 serverside image rendering
 
 1 client data capture
 1 socket io client/admin tracking

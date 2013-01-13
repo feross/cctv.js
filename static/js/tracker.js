@@ -55,7 +55,7 @@ if(top === self) {
       }, THROTTLE_TIME))
       $(document).on('mousemove', _.throttle(function(event) {
         socket.emit('update', sendMousePos(event))
-      }, 50))
+      }, THROTTLE_TIME))
       $(document).on('mousedown', function(event) {
         var data = sendMousePos(event)
         data.type = 'click'

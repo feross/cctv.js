@@ -100,6 +100,8 @@ Grid.prototype.update = function (data) {
     if (data.scrollLeft) {
       iframeJQ(iframeWindow).scrollLeft(data.scrollLeft)
     }
+
+    self.layout()
   }
 
   if (iframe.CCTV_DOM_LOADED) {
@@ -131,55 +133,65 @@ function setupIFrame ($iframe) {
 
 
 Grid.prototype.layout = function () {
-  this.iframes.forEach(function($iframe) {
+  var regionWidth = adminWidth / this.numFrames
+  log(regionWidth)
+
+  this.iframes.forEach(function($iframe, num) {
+    if (! $iframe[0].CCTV_DOM_LOADED) {
+      log('no layout for this frame')
+      return
+    }
     var clientWidth = $iframe.width()
       , clientHeight = $iframe.height()
       , scaleFactor = 1
+      , regionLeft = regionWidth * num
 
-    if (clientWidth > adminWidth) {
-      scaleFactor = adminWidth / clientWidth
+    log('client width ' + clientWidth)
+    if (clientWidth > regionWidth) {
+      scaleFactor = regionWidth / clientWidth
     }
-    if (clientHeight > adminHeight) {
-      var s = adminHeight / clientHeight
-      if (s < scaleFactor) {
-        scaleFactor = s
-      }
-    }
-    log('scaleFactor' + scaleFactor)
+    // if (clientHeight > adminHeight) {
+    //   var s = adminHeight / clientHeight
+    //   if (s < scaleFactor) {
+    //     scaleFactor = s
+    //   }
+    // }
+    log('scaleFactor ' + scaleFactor)
     $iframe.css({transform: 'scale(' + scaleFactor + ')'})
-    setTimeout(function () {
-      var position = $iframe.position()
-        , iframeWidth = $iframe.width() * scaleFactor
-        , iframeHeight = $iframe.height() * scaleFactor
-        , xOffsetForCentering = (adminWidth - iframeWidth) / 2
-        , yOffsetForCentering = (adminHeight - iframeHeight) / 2
+    // setTimeout(function () {
+    //   var position = $iframe.position()
+    //     , visibleWidth = $iframe.width() * scaleFactor
+    //     , visibleHeight = $iframe.height() * scaleFactor
+    //     , xOffsetForCentering = (regionWidth - visibleWidth) / 2
+    //     , yOffsetForCentering = (regionWidth - visibleHeight) / 2
 
-      $iframe.css({
-        top: -position.top + yOffsetForCentering,
-        left: -position.left + xOffsetForCentering
-      })
+    //   $iframe.css({
+    //     top: -position.top, // + yOffsetForCentering,
+    //     left: -position.left //  + xOffsetForCentering
+    //   })
 
-    }, 0)
+    // }, 0)
   })
 }
 
 
-// grid.add({
-//   id: 'a',
-//   src: '/sample/index.html',
-//   width: 1440,
-//   height: 900,
-//   scrollTop: 50,
-//   scrollLeft: 0
-// })
 
-// setTimeout(function() {
-//   grid.add({
-//     id: 'b',
-//     src: '/sample/about.html',
-//     width: 1440,
-//     height: 900,
-//     scrollTop: 50,
-//     scrollLeft: 0
-//   })
-// }, 1000)
+grid.add({
+  id: 'a',
+  src: '/sample/index.html',
+  width: 1440,
+  height: 900,
+  scrollTop: 50,
+  scrollLeft: 0
+})
+
+setTimeout(function() {
+  grid.add({
+    id: 'b',
+    src: '/sample/about.html',
+    width: 1440,
+    height: 900,
+    scrollTop: 50,
+    scrollLeft: 0
+  })
+}, 1000)
