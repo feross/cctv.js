@@ -17,13 +17,13 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(app.router);
 
-  function compile(str, path) {
+  var compile = function(str, path) {
     return stylus(str)
       .set('filename', path)
       .set('compress', false)
       .use(nib());
   }
-
+  
   app.use(stylus.middleware({
       src: __dirname + '/static'
     , compile: compile
