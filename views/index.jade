@@ -1,8 +1,8 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 Dashboard
+  p Welcome to the Dashboard
 
   script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js")
   script(src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.3/underscore-min.js")
@@ -15,7 +15,7 @@ block content
     var socket = io.connect('http://localhost');
 
     // collects initial info the page (size, scroll position)
-    //- socket.emit('update', {});
+    // socket.emit('update', {});
     
     // periodically send updates
 
