@@ -1,10 +1,5 @@
 var socket = io.connect('http://localhost');
 
-var adminWidth = $(window).width()
-  , adminHeight = $(window).height()
-
-log('adminWidth: ' + adminWidth)
-
 var grid = new Grid()
 
 // Socket code
@@ -38,10 +33,18 @@ socket.on('disconnect', function() {
   log("LOST SERVER CONNECTION!")
 })
 
-
 function Grid () {
   this.numFrames = 0
   this.iframes = []
+
+  $('.grid').isotope({
+    itemSelector : '.site',
+    layoutMode: 'fitRows'
+    // layoutMode: 'masonry',
+    // masonry: {
+    //   columnWidth: 300
+    // }
+  })
 }
 
 Grid.prototype.add = function (data) {
@@ -49,13 +52,16 @@ Grid.prototype.add = function (data) {
   var $iframe = $('<iframe>')
 
   $iframe
-    .addClass('site')
     .attr('id', data.id).attr('name', data.id)
     .attr('src', data.src)
 
   this.iframes.push($iframe)
+
+  $siteDiv = $('<div>').addClass('site')
+
+  $iframe.appendTo($siteDiv)
   
-  $iframe.appendTo('.grid')
+  $('.grid').isotope('insert', $siteDiv)
   setupIFrame($iframe)
 
   // Immediately trigger update for new iframe
@@ -101,7 +107,26 @@ Grid.prototype.update = function (data) {
       iframeJQ(iframeWindow).scrollLeft(data.scrollLeft)
     }
 
-    self.layout()
+    // var clientWidth = $iframe.width()
+    //   , clientHeight = $iframe.height()
+    // log(clientWidth)
+
+    // var scaleFactor = 1
+    // if (clientWidth > MAX_SITE_WIDTH) {
+    //   scaleFactor = MAX_SITE_WIDTH / clientWidth
+    // }
+    // log(scaleFactor)
+    // if (clientHeight > adminHeight) {
+    //   var s = adminHeight / clientHeight
+    //   if (s < scaleFactor) {
+    //     scaleFactor = s
+    //   }
+    // }
+
+    // $iframe.css({transform: 'scale(' + scaleFactor + ')'})
+
+    $('.grid').isotope('reLayout')
+    // $('.grid').isotope('addItems', $iframe).isotope('reLayout')
   }
 
   if (iframe.CCTV_DOM_LOADED) {
@@ -110,7 +135,7 @@ Grid.prototype.update = function (data) {
     iframe.CCTV_ON_LOAD = onLoad
   }
 
-  self.layout()
+
 }
 
 
@@ -132,66 +157,78 @@ function setupIFrame ($iframe) {
 }
 
 
-Grid.prototype.layout = function () {
-  var regionWidth = adminWidth / this.numFrames
-  log(regionWidth)
+// Grid.prototype.layout = function () {
+//   var regionWidth = adminWidth / this.numFrames
+//   log(regionWidth)
 
-  this.iframes.forEach(function($iframe, num) {
-    if (! $iframe[0].CCTV_DOM_LOADED) {
-      log('no layout for this frame')
-      return
-    }
-    var clientWidth = $iframe.width()
-      , clientHeight = $iframe.height()
-      , scaleFactor = 1
-      , regionLeft = regionWidth * num
+//   this.iframes.forEach(function($iframe, num) {
+//     if (! $iframe[0].CCTV_DOM_LOADED) {
+//       log('no layout for this frame')
+//       return
+//     }
+//     var clientWidth = $iframe.width()
+//       , clientHeight = $iframe.height()
+//       , scaleFactor = 1
+//       , regionLeft = regionWidth * num
 
-    log('client width ' + clientWidth)
-    if (clientWidth > regionWidth) {
-      scaleFactor = regionWidth / clientWidth
-    }
-    // if (clientHeight > adminHeight) {
-    //   var s = adminHeight / clientHeight
-    //   if (s < scaleFactor) {
-    //     scaleFactor = s
-    //   }
-    // }
-    log('scaleFactor ' + scaleFactor)
-    $iframe.css({transform: 'scale(' + scaleFactor + ')'})
-    // setTimeout(function () {
-    //   var position = $iframe.position()
-    //     , visibleWidth = $iframe.width() * scaleFactor
-    //     , visibleHeight = $iframe.height() * scaleFactor
-    //     , xOffsetForCentering = (regionWidth - visibleWidth) / 2
-    //     , yOffsetForCentering = (regionWidth - visibleHeight) / 2
+//     log('client width ' + clientWidth)
+//     if (clientWidth > regionWidth) {
+//       scaleFactor = regionWidth / clientWidth
+//     }
+//     // if (clientHeight > adminHeight) {
+//     //   var s = adminHeight / clientHeight
+//     //   if (s < scaleFactor) {
+//     //     scaleFactor = s
+//     //   }
+//     // }
+//     log('scaleFactor ' + scaleFactor)
+//     $iframe.css({transform: 'scale(' + scaleFactor + ')'})
+//     // setTimeout(function () {
+//     //   var position = $iframe.position()
+//     //     , visibleWidth = $iframe.width() * scaleFactor
+//     //     , visibleHeight = $iframe.height() * scaleFactor
+//     //     , xOffsetForCentering = (regionWidth - visibleWidth) / 2
+//     //     , yOffsetForCentering = (regionWidth - visibleHeight) / 2
 
-    //   $iframe.css({
-    //     top: -position.top, // + yOffsetForCentering,
-    //     left: -position.left //  + xOffsetForCentering
-    //   })
+//     //   $iframe.css({
+//     //     top: -position.top, // + yOffsetForCentering,
+//     //     left: -position.left //  + xOffsetForCentering
+//     //   })
 
-    // }, 0)
-  })
-}
+//     // }, 0)
+//   })
+// }
 
 
+// grid.add({
+//   id: 'a',
+//   src: '/sample/index.html',
+//   width: 1440,
+//   height: 900,
+//   scrollTop: 50,
+//   scrollLeft: 0
+// })
 
-grid.add({
-  id: 'a',
-  src: '/sample/index.html',
-  width: 1440,
-  height: 900,
-  scrollTop: 50,
-  scrollLeft: 0
-})
+// setInterval(function () {
+//   grid.add({
+//     id: 'a' + _.uniqueId(),
+//     src: '/sample/index.html',
+//     width: 1200,
+//     height: 600,
+//     scrollTop: 50,
+//     scrollLeft: 0
+//   })
+// }, 3000)
 
-setTimeout(function() {
-  grid.add({
-    id: 'b',
-    src: '/sample/about.html',
-    width: 1440,
-    height: 900,
-    scrollTop: 50,
-    scrollLeft: 0
-  })
-}, 1000)
+
+// setTimeout(function() {
+//   grid.add({
+//     id: 'b',
+//     src: '/sample/about.html',
+//     width: 1440,
+//     height: 900,
+//     scrollTop: 50,
+//     scrollLeft: 0
+//   })
+// }, 1000)
+>>>>>>> added isotope

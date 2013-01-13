@@ -5,13 +5,50 @@ html, body
   padding: 0
 
 .grid
-  // overflow: hidden
-  height: 100%
-  width: 100%
+  // border: 1px solid red
+  height: 300%
+  width: 300%
+  transform: scale(0.33)
+  transform-origin: 0% 0%
 
-.site
+.site iframe
   border: 0
-  position: fixed
-  transform: scale(1)
-  transition-property: scale, top, left
+  padding: 30px
+
+  // transition-property: scale, top, left
   // transition-duration: 1s
+
+
+/**** Isotope Filtering ****/
+
+.isotope-item {
+  z-index: 2;
+}
+
+.isotope-hidden.isotope-item {
+  pointer-events: none;
+  z-index: 1;
+}
+
+/**** Isotope CSS3 transitions ****/
+
+.isotope,
+.isotope .isotope-item {
+  transition-duration: 0.8s;
+}
+
+.isotope {
+  transition-property: height, width;
+}
+
+.isotope .isotope-item {
+  transition-property:         transform, opacity;
+}
+
+/**** disabling Isotope CSS3 transitions ****/
+
+.isotope.no-transition,
+.isotope.no-transition .isotope-item,
+.isotope .isotope-item.no-transition {
+  transition-duration: 0s;
+}
