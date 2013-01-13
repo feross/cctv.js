@@ -1,10 +1,4 @@
-var socket
-
-if (window.location.hostname == 'apstudynotes.org' || window.location.hostname == 'www.apstudynotes.org' || window.location.hostname == 'local.apstudynotes.org') {
-  socket = io.connect('http://www.apstudynotes.org:8080/')
-} else {
-  socket = io.connect('http://localhost')
-}
+var socket = io.connect('http://' + window.location.hostname)
 
 var grid = new Grid()
 
