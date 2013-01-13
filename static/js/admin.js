@@ -26,7 +26,7 @@ socket.on('client-event', function(data) {
 
 socket.on('client-disconnected', function(data) {
   log("disconnected: ", data.id)
-  // grid.remove(data.id)
+  grid.remove(data.id)
 })
 
 socket.on('disconnect', function() {  
@@ -51,13 +51,14 @@ Grid.prototype.add = function (data) {
   this.numFrames += 1
   var $iframe = $('<iframe>')
 
-  $iframe
-    .attr('id', data.id).attr('name', data.id)
-    .attr('src', data.src)
+  $iframe.attr('src', data.src).attr('name', data.id)
+
 
   this.iframes.push($iframe)
 
-  $siteDiv = $('<div>').addClass('site')
+  $siteDiv = $('<div>')
+    .attr('id', data.id)
+    .addClass('site')
 
   $iframe.appendTo($siteDiv)
   
@@ -70,7 +71,7 @@ Grid.prototype.add = function (data) {
 
 Grid.prototype.update = function (data) {
   var self = this
-    , $iframe = $('#' + data.id)
+    , $iframe = $('#' + data.id + ' iframe')
     , iframe = $iframe[0]
 
   if (data.src) {
@@ -107,26 +108,9 @@ Grid.prototype.update = function (data) {
       iframeJQ(iframeWindow).scrollLeft(data.scrollLeft)
     }
 
-    // var clientWidth = $iframe.width()
-    //   , clientHeight = $iframe.height()
-    // log(clientWidth)
-
-    // var scaleFactor = 1
-    // if (clientWidth > MAX_SITE_WIDTH) {
-    //   scaleFactor = MAX_SITE_WIDTH / clientWidth
-    // }
-    // log(scaleFactor)
-    // if (clientHeight > adminHeight) {
-    //   var s = adminHeight / clientHeight
-    //   if (s < scaleFactor) {
-    //     scaleFactor = s
-    //   }
-    // }
-
-    // $iframe.css({transform: 'scale(' + scaleFactor + ')'})
-
-    $('.grid').isotope('reLayout')
-    // $('.grid').isotope('addItems', $iframe).isotope('reLayout')
+    window.setTimeout(function () {
+      $('.grid').isotope('reLayout')
+    }, 300) // same time as CSS `.site iframe`
   }
 
   if (iframe.CCTV_DOM_LOADED) {
@@ -135,7 +119,17 @@ Grid.prototype.update = function (data) {
     iframe.CCTV_ON_LOAD = onLoad
   }
 
+  // Update cursor position
+  // if (data.mousex && data.mousey) {
+  //   var $cursor = $('<img>')
+  //   $cursor.addClass('cursor')
+  //   $cursor.
+  // }
+}
 
+Grid.prototype.remove = function (id) {
+  $item = $(id)
+  $('.grid').isotope('remove', $item)
 }
 
 
@@ -155,80 +149,3 @@ function setupIFrame ($iframe) {
     iframe.CCTV_DOM_LOADED = true
   }, false)
 }
-
-
-// Grid.prototype.layout = function () {
-//   var regionWidth = adminWidth / this.numFrames
-//   log(regionWidth)
-
-//   this.iframes.forEach(function($iframe, num) {
-//     if (! $iframe[0].CCTV_DOM_LOADED) {
-//       log('no layout for this frame')
-//       return
-//     }
-//     var clientWidth = $iframe.width()
-//       , clientHeight = $iframe.height()
-//       , scaleFactor = 1
-//       , regionLeft = regionWidth * num
-
-//     log('client width ' + clientWidth)
-//     if (clientWidth > regionWidth) {
-//       scaleFactor = regionWidth / clientWidth
-//     }
-//     // if (clientHeight > adminHeight) {
-//     //   var s = adminHeight / clientHeight
-//     //   if (s < scaleFactor) {
-//     //     scaleFactor = s
-//     //   }
-//     // }
-//     log('scaleFactor ' + scaleFactor)
-//     $iframe.css({transform: 'scale(' + scaleFactor + ')'})
-//     // setTimeout(function () {
-//     //   var position = $iframe.position()
-//     //     , visibleWidth = $iframe.width() * scaleFactor
-//     //     , visibleHeight = $iframe.height() * scaleFactor
-//     //     , xOffsetForCentering = (regionWidth - visibleWidth) / 2
-//     //     , yOffsetForCentering = (regionWidth - visibleHeight) / 2
-
-//     //   $iframe.css({
-//     //     top: -position.top, // + yOffsetForCentering,
-//     //     left: -position.left //  + xOffsetForCentering
-//     //   })
-
-//     // }, 0)
-//   })
-// }
-
-
-// grid.add({
-//   id: 'a',
-//   src: '/sample/index.html',
-//   width: 1440,
-//   height: 900,
-//   scrollTop: 50,
-//   scrollLeft: 0
-// })
-
-// setInterval(function () {
-//   grid.add({
-//     id: 'a' + _.uniqueId(),
-//     src: '/sample/index.html',
-//     width: 1200,
-//     height: 600,
-//     scrollTop: 50,
-//     scrollLeft: 0
-//   })
-// }, 3000)
-
-
-// setTimeout(function() {
-//   grid.add({
-//     id: 'b',
-//     src: '/sample/about.html',
-//     width: 1440,
-//     height: 900,
-//     scrollTop: 50,
-//     scrollLeft: 0
-//   })
-// }, 1000)
->>>>>>> added isotope
