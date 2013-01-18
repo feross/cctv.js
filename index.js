@@ -1,13 +1,14 @@
-  var express = require('express')
-    , http = require('http')
-    , path = require('path')
-    , stylus = require('stylus')
-    , nib = require('nib')
-    , _ = require('underscore')
+var express = require('express')
+  , http = require('http')
+  , path = require('path')
+  , stylus = require('stylus')
+  , nib = require('nib')
+  , _ = require('underscore')
+  , util = require('./util')
 
 global.IS_MODULE = true
 
-exports.listen = function (server) {
+exports.listen = function (app, server) {
   if (!server) {
     global.IS_MODULE = false
     global.PORT = (process.argv.length > 2)
@@ -41,6 +42,7 @@ exports.listen = function (server) {
       src: __dirname + '/static'
     , compile: compile
   }))
+  log(__dirname)
   app.use(express.static(path.join(__dirname, 'static')));
 
   if (!IS_MODULE) {

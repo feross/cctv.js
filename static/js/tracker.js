@@ -1,4 +1,4 @@
-var THROTTLE_TIME = 100
+var THROTTLE_TIME = 150 
 
 var BrowserDetect = {
   init: function () {
@@ -207,7 +207,7 @@ if(top === self) {
       }, THROTTLE_TIME))
       $(document).on('mousedown', function(event) {
         var data = sendMousePos(event)
-        data.type = 'click'
+        data.typ = 'click'
         socket.emit('event', data)
       })
     })

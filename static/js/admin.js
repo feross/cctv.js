@@ -19,8 +19,9 @@ socket.on('client-updated', function(data) {
 
 socket.on('client-event', function(data) {
   log("event: ", data)
-  if(data.type == 'click') {
+  if(data.typ == 'click') {
     // Handle click
+    grid.click(data)
   }
 })
 
@@ -154,12 +155,38 @@ Grid.prototype.update = function (data) {
       })
     }, 1000)
 
+
   }
 }
 
 Grid.prototype.remove = function (id) {
   $item = $('#' + id)
   $('.grid').isotope('remove', $item)
+}
+
+
+Grid.prototype.click = function (data) {
+  var $site = $('#' + data.id)
+    , $iframe = $('#' + data.id + ' iframe')
+    , iframe = $iframe[0]
+
+  if (!iframe.CCTV_DOM_LOADED) {
+    log('early return')
+    return
+  }
+
+  this.update(data)
+
+  var iframeWindow = iframe.contentWindow
+    ? iframe.contentWindow
+    : iframe.contentDocument.defaultView
+
+  var iframeDocument = iframeWindow.document
+
+  var elem = iframeDocument.elementFromPoint(data.mousex, data.mousey)
+
+  elem.click()
+
 }
 
 
