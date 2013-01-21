@@ -35,7 +35,7 @@ global.error = function (){
 /* Dump all the underscore.string methods into util
  * (If there's a conflict, the functions defined later will override) */
 
-module.exports = exports = require('underscore.string')
+// module.exports = exports = require('underscore.string')
 
 
 /**
