@@ -4,7 +4,7 @@ Watch live visitors using your website.
 
 Copyright (c) 2012 [Feross Aboukhadijeh](http://feross.org) and John Hiesey. All rights reserved. No free software license (for now).
 
-Built in 12 hours for the Stanford ACM Hackathon. Special thanks to [Nick Huber](http://www.thenickhuber.com/).
+Built in 12 hours for the Stanford ACM Hackathon.
 
 ## Usage
 
