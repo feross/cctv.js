@@ -1,5 +1,7 @@
 # CCTV.js
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/feross/cctv.js.svg)](https://greenkeeper.io/)
+
 Watch live visitors using your website.
 
 Copyright (c) 2012 [Feross Aboukhadijeh](http://feross.org) and John Hiesey. All rights reserved. No free software license (for now).
